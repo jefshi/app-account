@@ -1,6 +1,6 @@
 package com.csp.account.alipay.dto;
 
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({"WeakerAccess", "NonAsciiCharacters", "unused"})
 public class AlipayRecord {
 
     private String allRaw; // 原始数据

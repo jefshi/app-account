@@ -32,6 +32,9 @@ public class AlipayReader {
         // LogCat.e(GsonUtil.toJson(dailyRecords));
     }
 
+    /**
+     * @param file 文件来源于：支付宝——交易记录——下载查询结果
+     */
     public static List<AlipayRecord> readFile(File file) {
         List<AlipayRecord> list = new ArrayList<>();
         if (file == null || !file.isFile()) {
