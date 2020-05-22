@@ -20,7 +20,6 @@ import java.util.Set;
  *
  * @version 1.0.5
  */
-@SuppressWarnings({"unused", "WeakerAccess"})
 public class LogCat {
     private final static int LOG_MAX_LENGTH = 3072; // Android 能够打印的最大日志长度
     public final static int DEFAULT_STACK_ID = 2;
