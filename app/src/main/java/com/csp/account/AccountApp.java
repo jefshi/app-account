@@ -4,8 +4,14 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 
+import com.csp.account.base.Constant;
+import com.csp.account.database.dao.DaoMaster;
+import com.csp.account.database.dao.DaoSession;
+import com.csp.account.database.helper.DevOpenHelper;
 import com.csp.utillib.LogCat;
 import com.csp.utillib.Utils;
+
+import org.greenrobot.greendao.database.Database;
 
 
 /**
@@ -21,6 +27,12 @@ public class AccountApp extends Application {
 
     private volatile static AccountApp sApplication;
     private volatile static Context sContext;
+
+    private DaoSession mDaoSession; // GreenDao
+
+    public DaoSession getDaoSession() {
+        return mDaoSession;
+    }
 
     public static Context getContext() {
         return sContext != null
@@ -50,5 +62,18 @@ public class AccountApp extends Application {
 
         LogCat.setDebug(BuildConfig.DEBUG);
         Utils.init(this);
+
+        initGreenDao();
+    }
+
+    public void initGreenDao() {
+        DevOpenHelper helper = new DevOpenHelper(this, Constant.System.DATABASE_NAME);
+//        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, user_id + "lianxin.db");
+        Database db = helper.getWritableDb();
+        // encrypted SQLCipher database
+        // note: you need to add SQLCipher to your dependencies, check the build.gradle file
+        // DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "notes-db-encrypted");
+        // Database db = helper.getEncryptedWritableDb("encryption-key");
+        mDaoSession = new DaoMaster(db).newSession();
     }
 }
