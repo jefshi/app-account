@@ -7,13 +7,22 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ParseRecord {
+/**
+ * 解析记录
+ * Created by csp on 2019/11/25
+ * Modified by csp on 2019/11/25
+ *
+ * @version 1.0.0
+ */
+class ParseRecord {
 
-    public static void parse(AlipayRecord record) {
+    private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+    static void parse(AlipayRecord record) {
         String allRaw = record.getAllRaw();
 
         // 过滤掉前后无用的记录
-        if (EmptyUtil.isEmpty(allRaw) || !allRaw.startsWith("\"2"))
+        if (EmptyUtil.isBlank(allRaw) || !allRaw.startsWith("2"))
             return;
 
         String[] split = allRaw.split(",");
@@ -34,8 +43,7 @@ public class ParseRecord {
         record.set备注(split[14].trim());
         record.set资金状态(split[15].trim());
 
-        String 交易创建时间 = record.get交易创建时间();
-        Date date = getDate(交易创建时间, "yyyy/MM/dd HH:mm");
+        Date date = getDate(record.get交易创建时间());
         if (date != null)
             record.setTradeDate(date.getTime());
     }
@@ -44,11 +52,9 @@ public class ParseRecord {
      * 本地时间(字符串) -> 本地时间(Date)
      *
      * @param dateStr 本地时间(字符串)
-     * @param format  上述时间字符串格式
      */
-    public static Date getDate(String dateStr, String format) {
+    private static Date getDate(String dateStr) {
         // 根据时间字符串，获取相应时间
-        final SimpleDateFormat SDF = new SimpleDateFormat(format);
         Date date;
         try {
             date = SDF.parse(dateStr);

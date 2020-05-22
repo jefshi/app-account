@@ -1,10 +1,17 @@
 package com.csp.account.alipay.dto;
 
+/**
+ * 支付宝——所有交易记录——下载查询结果（csv）
+ * Created by csp on 2019/11/25
+ * Modified by csp on 2019/11/25
+ *
+ * @version 1.0.0
+ */
 @SuppressWarnings({"WeakerAccess", "NonAsciiCharacters", "unused"})
 public class AlipayRecord {
 
     private String allRaw; // 原始数据
-    private long tradeDate; // 交易时间
+    private long tradeDate; // 交易时间，来源于[交易创建时间]
 
     private String 交易号;
     private String 商家订单号;

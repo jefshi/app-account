@@ -1,5 +1,12 @@
 package com.csp.account.alipay.dto;
 
+/**
+ * 支付宝——所有交易记录——下载查询结果（csv）—解析
+ * Created by csp on 2019/11/25
+ * Modified by csp on 2019/11/25
+ *
+ * @version 1.0.0
+ */
 @SuppressWarnings({"WeakerAccess", "NonAsciiCharacters"})
 public class FilterRecord {
 
@@ -73,12 +80,12 @@ public class FilterRecord {
     /**
      * 只含日常，不记录理财、借贷
      *
-     * @return true：记录将被过滤
+     * @return false：记录将被过滤
      */
     public static boolean filterDaily(AlipayRecord record) {
         // 过滤：无效数据
         if (record.getTradeDate() == 0)
-            return true;
+            return false;
 
         String 交易状态 = record.get交易状态();
         if (交易状态 == null)
@@ -95,38 +102,38 @@ public class FilterRecord {
         // 过滤：交易状态为无效的数据
         for (String datum : 交易状态为无效) {
             if (交易状态.contains(datum))
-                return true;
+                return false;
         }
 
         // 过滤：自身账户间的转账（含花呗）
         for (String datum : 交易对方为自身账户) {
             if (交易对方.contains(datum))
-                return true;
+                return false;
         }
         for (String datum : 商品名称为自身账户要求交易对方为自己) {
             if (商品名称.contains(datum) && 交易对方.equals(交易对方为自己))
-                return true;
+                return false;
         }
 
         // 过滤：借贷相关记录
         for (String datum : 交易对方为借贷) {
             if (交易对方.contains(datum))
-                return true;
+                return false;
         }
 
         // 过滤：理财相关记录
         for (String datum : 交易对方为理财) {
             if (交易对方.contains(datum))
-                return true;
+                return false;
         }
         if (商品名称.contains(商品名称含招财宝))
-            return true;
+            return false;
 
         // 处理余额宝相关记录：过滤掉余额宝与自身账户之前的转账、保留余额宝收入
         for (String datum : 交易对方为余额宝) {
             if (交易对方.contains(datum))
                 return !商品名称.contains(余额宝收益发放);
         }
-        return false;
+        return true;
     }
 }
